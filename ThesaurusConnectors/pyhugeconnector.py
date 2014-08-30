@@ -12,7 +12,7 @@ def _big_huge_pos_tag_for_wordnet_pos_tag(pos_tag):
 
 	if (pos_tag == 'v'):
 		tag = 'verb'
-	elif (pos_tag == 'a' or pos_tag == 'r'): # a=adjective, r=adverb
+	elif (pos_tag == 'a' or pos_tag == 'r' or pos_tag == 's'): # a=adjective, r=adverb, s=satellite adjective
 		tag = 'adjective'
 
 	return tag
@@ -50,13 +50,13 @@ def thesaurus_entry_raw(word, api_key, response_format='json', response_callback
 	# If format is not json, then the content is returned, to be parsed by the client
 	return r if return_complete_response_obj else (r.json() if response_format == 'json' else r.content)
 
-def thesaurus_entry(word, api_key, pos_tag='n', ngram=0, relationship_type=None, response_callback=None, headers=None):
+def thesaurus_entry(word, api_key, pos_tag, ngram=0, relationship_type=None, response_callback=None, headers=None):
 	"""Return the Thesaurus entry for the given word.
 
 		Keyword arguments:
 		word -- The word to look up (mandatory, no default)
 		api_key -- Your API Key for the Big Huge Thesaurus, get your key here: https://words.bighugelabs.com/getkey.php (mandatory, no default)
-		pos_tag -- WordNet style (i.e. 'n', 'v', nltk.corpus.wordnet.NOUN) or Big Huge Thesaurus style PoS Tag (i.e. 'noun', 'verb') (default 'n')
+		pos_tag -- WordNet style (i.e. 'n', 'v', nltk.corpus.wordnet.NOUN) or Big Huge Thesaurus style PoS Tag (i.e. 'noun', 'verb'), use the function thesaurus_entry_raw if you don't want a PoS filter (mandatory, no default)
 		ngram -- Filter for specific n-grams, pass ngram=0 to get all n-grams (default 0)
 		relationship_type -- Use 'syn' for synonyms, 'ant' for antonyms, 'rel' for related terms, 'sim' for similar terms, 'usr' for user suggestions and None for all (default None)
 		response_callback -- Callback function to be invoked after request (default None)
@@ -64,28 +64,29 @@ def thesaurus_entry(word, api_key, pos_tag='n', ngram=0, relationship_type=None,
 	"""
 
 	# Map WordNet PoSTag to BigHuge PoSTag (if it is a WordNet PoS Tag)
-	pos_tag = _big_huge_pos_tag_for_wordnet_pos_tag(pos_tag) if len(pos_tag) == 1 else pos_tag
+	if (pos_tag != None):
+		pos_tag = _big_huge_pos_tag_for_wordnet_pos_tag(pos_tag) if len(pos_tag) == 1 else pos_tag
 
 	# Result is a dict of dicts
 	result = thesaurus_entry_raw(word=word, api_key=api_key, response_format='json', response_callback=response_callback, headers=headers)
-	result_by_pos_tag = result.get(pos_tag, None)
+	result = result.get(pos_tag, None)
 
 	# Fiddle out the given relationship_type entry
-	if (result_by_pos_tag != None and relationship_type != None):
+	if (result != None and relationship_type != None):
 
 		# Filter by ngram
 		if (ngram > 0):
-			return [rel_type for rel_type in result_by_pos_tag.get(relationship_type, None) if rel_type.count(' ') == (ngram - 1)]
+			return [w for w in result.get(relationship_type, None) if w.count(' ') == (ngram - 1)]
 		else:
-			return [rel_type for rel_type in result_by_pos_tag.get(relationship_type, None)]
+			return [w for w in result.get(relationship_type, None)]
 
-	return result_by_pos_tag
+	return result
 
 if (__name__ == '__main__'):
-	if (len(sys.argv) >= 3):
+	if (len(sys.argv) >= 4):
 		word = sys.argv[1]
 		api_key = sys.argv[2]
-		pos_tag = sys.argv[3] if len(sys.argv) > 3 else 'n'
+		pos_tag = sys.argv[3]
 		ngram = int(sys.argv[4]) if len(sys.argv) > 4 else 1
 		rel_type = sys.argv[5] if len(sys.argv) > 5 else 'syn'
 		response_callback = sys.argv[6] if len(sys.argv) > 6 else None
