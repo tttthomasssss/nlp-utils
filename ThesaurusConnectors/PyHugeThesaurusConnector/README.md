@@ -25,3 +25,7 @@
 * And no, neither `xml` nor `php` are altered/parsed/touched in any way, what you receive is the raw `str` as returned by the API.
 * If you want to run the tests locally you need to pass your API key, i.e.: `python test.py <YOUR-API-KEY>`.
 * If you want to test with `nose`, you should install `nose-testconfig` (`pip install nose-testconfig`) and create a file called `nose_config.yaml`. The contents of the File should simply be `api_key: <Your API Key>`. You can then run the nose tests with `nosetests -s --tc-file nose_config.yaml --tc-format yaml`.  
+
+## Documentation
+Currently available from [here](http://pythonhosted.org//pyhugeconnector/pyhugeconnector.html#module-pyhugeconnector.pyhugeconnector)
+
