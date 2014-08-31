@@ -19,7 +19,7 @@
 ```
 
 ##Notes
-* Works with NLTK WordNet PoS Tags (i.e. 'n' or `wordnet.NOUN`) as well as the Big Huge Thesaurus PoS Tags.
+* Works with NLTK WordNet PoS Tags (i.e. 'n' or `nltk.coprpus.wordnet.NOUN`) as well as the Big Huge Thesaurus PoS Tags.
 * By default, it uses `json` and returns a list of results.
 * `pyhugeconnector.thesaurus_entry_raw(…)` can be used to retrieve the raw entry returned from the API. *NB: While for `json` responses the return type is a Python `dict`, for `xml` or `php` responses the return type is a `str`*.
 * And no, neither `xml` nor `php` are altered/parsed/touched in any way, what you receive is the raw `str` as returned by the API.
