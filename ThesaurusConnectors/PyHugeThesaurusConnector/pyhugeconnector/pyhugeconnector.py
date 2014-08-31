@@ -6,7 +6,8 @@ def _big_huge_pos_tag_for_wordnet_pos_tag(pos_tag):
 	"""Convert the given WordNet style PoS Tag into a Big Huge Thesaurus Style PoS Tag
 
 		Keyword arguments:
-		pos_tag -- The WordNet style PoS Tag (mandatory, no default)
+
+		- `pos_tag` -- The WordNet style PoS Tag (**mandatory**, *no default*)
 	"""
 	tag = 'noun'
 
@@ -21,10 +22,11 @@ def thesaurus_entry_raw(word, api_key, response_format='json', return_complete_r
 	"""Return the raw Thesaurus entry for the given word (in the given response format)
 
 		Keyword arguments:
-		word -- The word to look up (mandatory, no default)
-		api_key -- Your API Key for the Big Huge Thesaurus, get your key here: https://words.bighugelabs.com/getkey.php (mandatory, no default)
-		response_format -- Desired format of the response, possible options are 'json', 'xml' and 'php', see https://words.bighugelabs.com/api.php for more details. NB json is returned as dict, xml and php are returned as strings (default 'json')
-		return_complete_response_obj -- Returns the full python-requests (http://docs.python-requests.org/en/latest/) response object (default False)
+
+		- `word` -- The word to look up (**mandatory**, *no default*)
+		- `api_key` -- Your API Key for the Big Huge Thesaurus, get your key here: https://words.bighugelabs.com/getkey.php (**mandatory**, *no default*)
+		- `response_format` -- Desired format of the response, possible options are `json`, `xml` and `php`, see https://words.bighugelabs.com/api.php for more details. NB: `json` is returned as `dict`, `xml` and `php` are returned as `str` (*default:* `json`)
+		- `return_complete_response_obj` -- Returns the full python-requests (http://docs.python-requests.org/en/latest/) response object (*default:* `False`)
 	"""
 
 	# Specify response format
@@ -51,11 +53,12 @@ def thesaurus_entry(word, api_key, pos_tag, ngram=0, relationship_type=None):
 	"""Return the Thesaurus entry for the given word.
 
 		Keyword arguments:
-		word -- The word to look up (mandatory, no default)
-		api_key -- Your API Key for the Big Huge Thesaurus, get your key here: https://words.bighugelabs.com/getkey.php (mandatory, no default)
-		pos_tag -- WordNet style (i.e. 'n', 'v', nltk.corpus.wordnet.NOUN) or Big Huge Thesaurus style PoS Tag (i.e. 'noun', 'verb'), use the function thesaurus_entry_raw if you don't want a PoS filter (mandatory, no default)
-		ngram -- Filter for specific n-grams, pass ngram=0 to get all n-grams (default 0)
-		relationship_type -- Use 'syn' for synonyms, 'ant' for antonyms, 'rel' for related terms, 'sim' for similar terms, 'usr' for user suggestions and None for all (default None)
+
+		- `word` -- The word to look up (**mandatory**, *no default*)
+		- `api_key` -- Your API Key for the Big Huge Thesaurus, get your key here: https://words.bighugelabs.com/getkey.php (**mandatory**, `no default`)
+		- `pos_tag` -- WordNet style (i.e. `'n'`, `'v'`, `nltk.corpus.wordnet.NOUN`) or Big Huge Thesaurus style PoS Tag (i.e. `'noun'`, `'verb'`), use the function `thesaurus_entry_raw` if you don't want a PoS filter (**mandatory**, *no default*)
+		- `ngram` -- Filter for specific n-grams, pass `ngram=0` to get all n-grams (*default:* `0`)
+		- `relationship_type` -- Use `'syn'` for synonyms, `'ant'` for antonyms, `'rel'` for related terms, `'sim'` for similar terms, `'usr'` for user suggestions and `None` for all (*default:* `None`)
 	"""
 
 	# Map WordNet PoSTag to BigHuge PoSTag (if it is a WordNet PoS Tag)
