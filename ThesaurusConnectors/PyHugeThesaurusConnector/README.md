@@ -9,13 +9,13 @@
 ```
 >>> import pyhugeconnector
 >>> pyhugeconnector.thesaurus_entry(
-		word='love', 
+		word='python', 
 		api_key='<YOUR-API-KEY>', 
 		pos_tag='n', 
 		ngram=2, 
 		relationship_type='syn'
 	)
-[u'sexual love', u'erotic love', u'making love', u'love life', u'loved one', u'physical attraction', u'sex activity', u'sexual activity', u'sexual desire', u'sexual practice']
+[u'disembodied spirit', u'mythical creature', u'mythical monster']
 ```
 
 ##Notes
