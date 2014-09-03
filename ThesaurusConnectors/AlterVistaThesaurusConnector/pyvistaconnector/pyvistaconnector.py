@@ -14,9 +14,9 @@ def _altervista_pos_tag_for_wordnet_pos_tag(pos_tag):
 	if (pos_tag == 'v'): # v=verb
 		tag = '(verb)'
 	elif (pos_tag == 'a' or pos_tag == 's'): #a=adjective, s=satellite adjective
-		tag = '(adjective)'
+		tag = '(adj)'
 	elif (pos_tag == 'r'): #r=adverb
-		tag = '(adverb)'
+		tag = '(adv)'
 
 	return tag
 

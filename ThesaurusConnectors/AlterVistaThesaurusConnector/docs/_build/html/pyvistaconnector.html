@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pyvistaconnector package &mdash; pyvistaconnector 1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="pyvistaconnector 1 documentation" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="index.html">pyvistaconnector 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="pyvistaconnector-package">
+<h1>pyvistaconnector package<a class="headerlink" href="#pyvistaconnector-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-pyvistaconnector.pyvistaconnector">
+<span id="pyvistaconnector-pyvistaconnector-module"></span><h2>pyvistaconnector.pyvistaconnector module<a class="headerlink" href="#module-pyvistaconnector.pyvistaconnector" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="pyvistaconnector.pyvistaconnector.thesaurus_entry">
+<tt class="descclassname">pyvistaconnector.pyvistaconnector.</tt><tt class="descname">thesaurus_entry</tt><big>(</big><em>word</em>, <em>api_key</em>, <em>pos_tag</em>, <em>ngram=0</em>, <em>language='en_US'</em><big>)</big><a class="reference internal" href="_modules/pyvistaconnector/pyvistaconnector.html#thesaurus_entry"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyvistaconnector.pyvistaconnector.thesaurus_entry" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the Thesaurus entry for the given word.</p>
+<p>Keyword arguments:</p>
+<ul class="simple">
+<li><cite>word</cite> &#8211; The word to look up (<strong>mandatory</strong>, <em>no default</em>)</li>
+<li><cite>api_key</cite> &#8211; Your API Key for the AlterVista Thesaurus, get your key here: <a class="reference external" href="http://thesaurus.altervista.org/mykey">http://thesaurus.altervista.org/mykey</a> (<strong>mandatory</strong>, <em>no default</em>)</li>
+<li><cite>pos_tag</cite> &#8211; WordNet style (i.e. <cite>&#8216;n&#8217;</cite>, <cite>&#8216;v&#8217;</cite>, <cite>nltk.corpus.wordnet.NOUN</cite>) or AlterVista Thesaurus style PoS Tag (i.e. <cite>&#8216;(noun)&#8217;</cite>, <cite>&#8216;(verb)&#8217;</cite>), use the function <cite>thesaurus_entry_raw</cite> if you don&#8217;t want a PoS filter (<strong>mandatory</strong>, <em>no default</em>)</li>
+<li><cite>ngram</cite> &#8211; Filter for specific n-grams, pass <cite>ngram=0</cite> to get all n-grams (<em>default:</em> <cite>0</cite>)</li>
+<li><cite>language</cite> &#8211; Can be either of the following: <cite>&#8216;it_IT&#8217;</cite>, <cite>&#8216;fr_FR&#8217;</cite>, <cite>&#8216;de_DE&#8217;</cite>, <cite>&#8216;en_US&#8217;</cite>, <cite>&#8216;el_GR&#8217;</cite>, <cite>&#8216;es_ES&#8217;</cite>, <cite>&#8216;de_DE&#8217;</cite>, <cite>&#8216;no_NO&#8217;</cite>, <cite>&#8216;pt_PT&#8217;</cite>, <cite>&#8216;ro_RO&#8217;</cite>, <cite>&#8216;ru_RU&#8217;</cite>, <cite>&#8216;sk_SK&#8217;</cite>. See <a class="reference external" href="http://thesaurus.altervista.org/service">http://thesaurus.altervista.org/service</a> for more information. (<em>default:</em> <cite>en_US</cite>)</li>
+</ul>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyvistaconnector.pyvistaconnector.thesaurus_entry_raw">
+<tt class="descclassname">pyvistaconnector.pyvistaconnector.</tt><tt class="descname">thesaurus_entry_raw</tt><big>(</big><em>word</em>, <em>api_key</em>, <em>response_format='json'</em>, <em>language='en_US'</em>, <em>return_complete_response_obj=False</em><big>)</big><a class="reference internal" href="_modules/pyvistaconnector/pyvistaconnector.html#thesaurus_entry_raw"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyvistaconnector.pyvistaconnector.thesaurus_entry_raw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the raw Thesaurus entry for the given word (in the given response format)</p>
+<p>Keyword arguments:</p>
+<ul class="simple">
+<li><cite>word</cite> &#8211; The word to look up (<strong>mandatory</strong>, <em>no default</em>)</li>
+<li><cite>api_key</cite> &#8211; Your API Key for the AlterVista Thesaurus, get your key here: <a class="reference external" href="http://thesaurus.altervista.org/mykey">http://thesaurus.altervista.org/mykey</a> (<strong>mandatory</strong>, <em>no default</em>)</li>
+<li><cite>response_format</cite> &#8211; Desired format of the response, possible options are <cite>json</cite> and <cite>xml</cite>. NB: <cite>json</cite> is returned as <cite>dict</cite>, <cite>xml</cite> is returned as <cite>str</cite> (<em>default:</em> <cite>json</cite>)</li>
+<li><cite>return_complete_response_obj</cite> &#8211; Returns the full python-requests (<a class="reference external" href="http://docs.python-requests.org/en/latest/">http://docs.python-requests.org/en/latest/</a>) response object (<em>default:</em> <cite>False</cite>)</li>
+</ul>
+</dd></dl>
+
+</div>
+<div class="section" id="module-pyvistaconnector">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-pyvistaconnector" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">pyvistaconnector package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-pyvistaconnector.pyvistaconnector">pyvistaconnector.pyvistaconnector module</a></li>
+<li><a class="reference internal" href="#module-pyvistaconnector">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/pyvistaconnector.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="index.html">pyvistaconnector 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, tttthomasssss.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>

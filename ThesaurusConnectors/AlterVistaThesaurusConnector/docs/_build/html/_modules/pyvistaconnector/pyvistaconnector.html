@@ -1,0 +1,202 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pyvistaconnector.pyvistaconnector &mdash; pyvistaconnector 1 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="pyvistaconnector 1 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">pyvistaconnector 1 documentation</a> &raquo;</li>
+          <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for pyvistaconnector.pyvistaconnector</h1><div class="highlight"><pre>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="k">def</span> <span class="nf">_altervista_pos_tag_for_wordnet_pos_tag</span><span class="p">(</span><span class="n">pos_tag</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;Convert the given WordNet style PoS Tag into a AlterVista Thesaurus Style PoS Tag</span>
+
+<span class="sd">		Keyword arguments:</span>
+
+<span class="sd">		- `pos_tag` -- The WordNet style PoS Tag (**mandatory**, *no default*)</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="n">tag</span> <span class="o">=</span> <span class="s">&#39;(noun)&#39;</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">pos_tag</span> <span class="o">==</span> <span class="s">&#39;v&#39;</span><span class="p">):</span> <span class="c"># v=verb</span>
+		<span class="n">tag</span> <span class="o">=</span> <span class="s">&#39;(verb)&#39;</span>
+	<span class="k">elif</span> <span class="p">(</span><span class="n">pos_tag</span> <span class="o">==</span> <span class="s">&#39;a&#39;</span> <span class="ow">or</span> <span class="n">pos_tag</span> <span class="o">==</span> <span class="s">&#39;s&#39;</span><span class="p">):</span> <span class="c">#a=adjective, s=satellite adjective</span>
+		<span class="n">tag</span> <span class="o">=</span> <span class="s">&#39;(adj)&#39;</span>
+	<span class="k">elif</span> <span class="p">(</span><span class="n">pos_tag</span> <span class="o">==</span> <span class="s">&#39;r&#39;</span><span class="p">):</span> <span class="c">#r=adverb</span>
+		<span class="n">tag</span> <span class="o">=</span> <span class="s">&#39;(adv)&#39;</span>
+
+	<span class="k">return</span> <span class="n">tag</span>
+
+<div class="viewcode-block" id="thesaurus_entry_raw"><a class="viewcode-back" href="../../pyvistaconnector.html#pyvistaconnector.pyvistaconnector.thesaurus_entry_raw">[docs]</a><span class="k">def</span> <span class="nf">thesaurus_entry_raw</span><span class="p">(</span><span class="n">word</span><span class="p">,</span> <span class="n">api_key</span><span class="p">,</span> <span class="n">response_format</span><span class="o">=</span><span class="s">&#39;json&#39;</span><span class="p">,</span> <span class="n">language</span><span class="o">=</span><span class="s">&#39;en_US&#39;</span><span class="p">,</span> <span class="n">return_complete_response_obj</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;Return the raw Thesaurus entry for the given word (in the given response format)</span>
+
+<span class="sd">		Keyword arguments:</span>
+
+<span class="sd">		- `word` -- The word to look up (**mandatory**, *no default*)</span>
+<span class="sd">		- `api_key` -- Your API Key for the AlterVista Thesaurus, get your key here: http://thesaurus.altervista.org/mykey (**mandatory**, *no default*)</span>
+<span class="sd">		- `response_format` -- Desired format of the response, possible options are `json` and `xml`. NB: `json` is returned as `dict`, `xml` is returned as `str` (*default:* `json`)</span>
+<span class="sd">		- `return_complete_response_obj` -- Returns the full python-requests (http://docs.python-requests.org/en/latest/) response object (*default:* `False`)</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+
+	<span class="c"># Specify response format</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">response_format</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">):</span>
+
+		<span class="c"># Quick Sanity Check</span>
+		<span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="n">response_format</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;xml&#39;</span><span class="p">,</span> <span class="s">&#39;json&#39;</span><span class="p">]):</span>
+			<span class="n">response_format</span> <span class="o">=</span> <span class="s">&#39;json&#39;</span>
+	<span class="k">else</span><span class="p">:</span>
+		<span class="n">response_format</span> <span class="o">=</span> <span class="s">&#39;json&#39;</span>
+
+	<span class="n">url</span> <span class="o">=</span> <span class="s">&#39;http://thesaurus.altervista.org/thesaurus/v1&#39;</span>
+
+	<span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+		<span class="s">&#39;key&#39;</span><span class="p">:</span>		<span class="n">api_key</span><span class="p">,</span>
+		<span class="s">&#39;word&#39;</span><span class="p">:</span>		<span class="n">word</span><span class="p">,</span>
+		<span class="s">&#39;language&#39;</span><span class="p">:</span>	<span class="n">language</span><span class="p">,</span>
+		<span class="s">&#39;output&#39;</span><span class="p">:</span>	<span class="n">response_format</span>
+	<span class="p">}</span>
+
+	<span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
+
+	<span class="c"># Raise if the request failed</span>
+	<span class="n">r</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span>
+
+	<span class="c"># If format is not json, then the content is returned, to be parsed by the client</span>
+	<span class="k">return</span> <span class="n">r</span> <span class="k">if</span> <span class="n">return_complete_response_obj</span> <span class="k">else</span> <span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()</span> <span class="k">if</span> <span class="n">response_format</span> <span class="o">==</span> <span class="s">&#39;json&#39;</span> <span class="k">else</span> <span class="n">r</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="thesaurus_entry"><a class="viewcode-back" href="../../pyvistaconnector.html#pyvistaconnector.pyvistaconnector.thesaurus_entry">[docs]</a><span class="k">def</span> <span class="nf">thesaurus_entry</span><span class="p">(</span><span class="n">word</span><span class="p">,</span> <span class="n">api_key</span><span class="p">,</span> <span class="n">pos_tag</span><span class="p">,</span> <span class="n">ngram</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">language</span><span class="o">=</span><span class="s">&#39;en_US&#39;</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;Return the Thesaurus entry for the given word.</span>
+
+<span class="sd">		Keyword arguments:</span>
+
+<span class="sd">		- `word` -- The word to look up (**mandatory**, *no default*)</span>
+<span class="sd">		- `api_key` -- Your API Key for the AlterVista Thesaurus, get your key here: http://thesaurus.altervista.org/mykey (**mandatory**, *no default*)</span>
+<span class="sd">		- `pos_tag` -- WordNet style (i.e. `&#39;n&#39;`, `&#39;v&#39;`, `nltk.corpus.wordnet.NOUN`) or AlterVista Thesaurus style PoS Tag (i.e. `&#39;(noun)&#39;`, `&#39;(verb)&#39;`), use the function `thesaurus_entry_raw` if you don&#39;t want a PoS filter (**mandatory**, *no default*)</span>
+<span class="sd">		- `ngram` -- Filter for specific n-grams, pass `ngram=0` to get all n-grams (*default:* `0`)</span>
+<span class="sd">		- `language` -- Can be either of the following: `&#39;it_IT&#39;`, `&#39;fr_FR&#39;`, `&#39;de_DE&#39;`, `&#39;en_US&#39;`, `&#39;el_GR&#39;`, `&#39;es_ES&#39;`, `&#39;de_DE&#39;`, `&#39;no_NO&#39;`, `&#39;pt_PT&#39;`, `&#39;ro_RO&#39;`, `&#39;ru_RU&#39;`, `&#39;sk_SK&#39;`. See http://thesaurus.altervista.org/service for more information. (*default:* `en_US`)</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+
+	<span class="c"># Map WordNet PoSTag to BigHuge PoSTag (if it is a WordNet PoS Tag)</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">pos_tag</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">):</span>
+		<span class="n">pos_tag</span> <span class="o">=</span> <span class="n">_altervista_pos_tag_for_wordnet_pos_tag</span><span class="p">(</span><span class="n">pos_tag</span><span class="p">)</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">pos_tag</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="n">pos_tag</span>
+
+	<span class="c"># Result is a dict of lists (of dicts (of dicts)) &lt;-- oh yes, its an *awesome* json response format</span>
+	<span class="n">result</span> <span class="o">=</span> <span class="n">thesaurus_entry_raw</span><span class="p">(</span><span class="n">word</span><span class="o">=</span><span class="n">word</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="n">api_key</span><span class="p">,</span> <span class="n">response_format</span><span class="o">=</span><span class="s">&#39;json&#39;</span><span class="p">)</span>
+	<span class="n">result_list</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;response&#39;</span><span class="p">,</span> <span class="p">[])</span>
+
+	<span class="c"># Unpack the shit</span>
+	<span class="n">result_list</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">entry</span><span class="p">:</span> <span class="n">entry</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;list&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;category&#39;</span><span class="p">:</span> <span class="s">&#39;fail&#39;</span><span class="p">,</span> <span class="s">&#39;synonyms&#39;</span><span class="p">:</span><span class="s">&#39;&#39;</span><span class="p">}),</span> <span class="n">result_list</span><span class="p">)</span>
+
+	<span class="c"># More unpacking</span>
+	<span class="n">result_list</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">entry</span><span class="p">:</span> <span class="n">entry</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;synonyms&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;|&#39;</span><span class="p">)</span> <span class="k">if</span> <span class="n">entry</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;category&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="n">pos_tag</span> <span class="k">else</span> <span class="p">[],</span> <span class="n">result_list</span><span class="p">)</span>
+
+	<span class="c"># Flatten, filter the empty lists and filter for the correct ngram</span>
+	<span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+	<span class="k">for</span> <span class="n">entry_list</span> <span class="ow">in</span> <span class="n">result_list</span><span class="p">:</span>
+		<span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">entry_list</span><span class="p">:</span>
+			<span class="n">sanitised_entry</span> <span class="o">=</span> <span class="n">entry</span><span class="p">[:</span><span class="n">entry</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s">&#39;(&#39;</span><span class="p">)]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">if</span> <span class="p">(</span><span class="s">&#39;(&#39;</span> <span class="ow">in</span> <span class="n">entry</span> <span class="ow">and</span> <span class="s">&#39;)&#39;</span> <span class="ow">in</span> <span class="n">entry</span><span class="p">)</span> <span class="k">else</span> <span class="n">entry</span>
+			<span class="k">if</span> <span class="p">(</span><span class="n">ngram</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span>
+				<span class="k">if</span> <span class="p">(</span><span class="n">sanitised_entry</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="p">)</span> <span class="o">==</span> <span class="p">(</span><span class="n">ngram</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)):</span>
+					<span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sanitised_entry</span><span class="p">)</span>
+			<span class="k">else</span><span class="p">:</span>
+				<span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sanitised_entry</span><span class="p">)</span>
+
+	<span class="k">return</span> <span class="n">result</span>
+</div>
+<span class="k">if</span> <span class="p">(</span><span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">):</span>
+	<span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">4</span><span class="p">):</span>
+		<span class="n">word</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+		<span class="n">api_key</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+		<span class="n">pos_tag</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+		<span class="n">ngram</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">4</span><span class="p">])</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">4</span> <span class="k">else</span> <span class="mi">1</span>
+		<span class="n">language</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">5</span> <span class="k">else</span> <span class="s">&#39;en_US&#39;</span>
+
+		<span class="k">print</span> <span class="n">thesaurus_entry</span><span class="p">(</span><span class="n">word</span><span class="o">=</span><span class="n">word</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="n">api_key</span><span class="p">,</span> <span class="n">pos_tag</span><span class="o">=</span><span class="n">pos_tag</span><span class="p">,</span> <span class="n">ngram</span><span class="o">=</span><span class="n">ngram</span><span class="p">,</span> <span class="n">language</span><span class="o">=</span><span class="n">language</span><span class="p">)</span>
+	<span class="k">else</span><span class="p">:</span>
+		<span class="k">print</span> <span class="s">&#39;Not enough args, need to specify at least </span><span class="se">\&#39;</span><span class="s">word</span><span class="se">\&#39;</span><span class="s">, </span><span class="se">\&#39;</span><span class="s">api_key</span><span class="se">\&#39;</span><span class="s"> and </span><span class="se">\&#39;</span><span class="s">pos_tag</span><span class="se">\&#39;</span><span class="s">; i.e.: python pyvistaconnector.py love XXXAPIKEY666 noun&#39;</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">pyvistaconnector 1 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, tttthomasssss.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>
