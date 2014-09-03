@@ -106,5 +106,5 @@ if (__name__ == '__main__'):
 
 		print thesaurus_entry(word=word, api_key=api_key, pos_tag=pos_tag, ngram=ngram, language=language)
 	else:
-		print 'Not enough args, need to specify at least \'word\', \'api_key\' and \'pos_tag\'; i.e.: python pyhugeconnector.py love XXXAPIKEY666 noun'
+		print 'Not enough args, need to specify at least \'word\', \'api_key\' and \'pos_tag\'; i.e.: python pyvistaconnector.py love XXXAPIKEY666 noun'
 
