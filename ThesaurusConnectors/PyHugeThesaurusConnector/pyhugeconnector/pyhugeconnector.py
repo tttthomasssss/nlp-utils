@@ -55,7 +55,7 @@ def thesaurus_entry(word, api_key, pos_tag, ngram=0, relationship_type=None):
 		Keyword arguments:
 
 		- `word` -- The word to look up (**mandatory**, *no default*)
-		- `api_key` -- Your API Key for the Big Huge Thesaurus, get your key here: https://words.bighugelabs.com/getkey.php (**mandatory**, `no default`)
+		- `api_key` -- Your API Key for the Big Huge Thesaurus, get your key here: https://words.bighugelabs.com/getkey.php (**mandatory**, *no default*)
 		- `pos_tag` -- WordNet style (i.e. `'n'`, `'v'`, `nltk.corpus.wordnet.NOUN`) or Big Huge Thesaurus style PoS Tag (i.e. `'noun'`, `'verb'`), use the function `thesaurus_entry_raw` if you don't want a PoS filter (**mandatory**, *no default*)
 		- `ngram` -- Filter for specific n-grams, pass `ngram=0` to get all n-grams (*default:* `0`)
 		- `relationship_type` -- Use `'syn'` for synonyms, `'ant'` for antonyms, `'rel'` for related terms, `'sim'` for similar terms, `'usr'` for user suggestions and `None` for all (*default:* `None`)
