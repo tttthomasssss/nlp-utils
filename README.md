@@ -7,3 +7,4 @@ Contents (so far):
 ------------------
 
 * PyHugeThesaurusConnector - Connector for the [BigHugeThesaurus](https://words.bighugelabs.com)
+* AlterVistaThesaurusConnector - Connector for the [AlterVistaThesaurus](http://thesaurus.altervista.org)
