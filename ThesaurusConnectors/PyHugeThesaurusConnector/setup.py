@@ -11,7 +11,7 @@ with open(path.join(here, 'DESCRIPTION.rst'), encoding='utf-8') as f:
 setup(
 	name='pyhugeconnector',
 
-	version='0.1.1',
+	version='0.1.2',
 
 	description='BigHugeThesaurus connector',
 	long_description=long_description,
